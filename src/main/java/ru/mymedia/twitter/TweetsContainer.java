@@ -8,7 +8,7 @@ import java.util.Map;
 import ru.mymedia.twitter.Tweet;
 
 public interface TweetsContainer<T extends Tweet>
-	extends Iterable<T>, Serializable
+	extends Collection<T>, Iterable<T>, Serializable
 {
     /**
      * Adds an element to this container
