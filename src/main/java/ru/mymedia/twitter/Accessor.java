@@ -1,6 +1,7 @@
 package ru.mymedia.twitter;
 
 import java.util.*;
+import java.text.SimpleDateFormat;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
@@ -15,16 +16,21 @@ public class Accessor
 	 */
 	public static Collection<Tweet> search(String query, Date since, int querySize)
 	{
+		assert querySize > 0;
 		TweetsContainer<Tweet> result = new TweetsSet();
 		try {
-			Query request = new Query(query);
+			Query request = new Query(query + " since:" + new SimpleDateFormat("yyyy-MM-dd").format(since));
 			QueryResult response;
-			do { // TODO: избавиться от do … while
+			int counter = 0;
+			outerLoop: do {
 				response = twitter.search(request);
 				for (Status tweet : response.getTweets()) {
 					result.add(new Tweet(tweet.getText(), tweet.getCreatedAt(),
 										 tweet.getFavoriteCount(), tweet.getRetweetCount(),
 										 tweet.getLang()));
+					if (++counter >= querySize) {
+						break outerLoop;
+					}
 				}
 			} while ((request = response.nextQuery()) != null);
 		} catch (TwitterException te) {
