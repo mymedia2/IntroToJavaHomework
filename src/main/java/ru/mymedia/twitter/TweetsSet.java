@@ -1,9 +1,6 @@
 package ru.mymedia.twitter;
 
-import java.util.HashSet;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Map;
+import java.util.*;
 
 import ru.mymedia.twitter.Tweet;
 import ru.mymedia.twitter.TweetsContainer;
@@ -46,13 +43,24 @@ public class TweetsSet
 	@Override
     public void sort(Comparator<Tweet> comparator)
 	{
+		// непонятно, как сортировать HashSet на месте
+		Tweet[] allTweets = toArray(new Tweet[0]);
+		Arrays.sort(allTweets, comparator);
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
     public Map<String, Collection<Tweet>> groupByLang()
 	{
-		throw new UnsupportedOperationException();
+		Map<String, Collection<Tweet>> result = new HashMap<String, Collection<Tweet>>();
+		for (Tweet tweet : this) {
+			Collection<Tweet> byLang = result.get(tweet.getLang());
+			if (byLang == null) {
+				result.put(tweet.getLang(), byLang = new TweetsSet());
+			}
+			byLang.add(tweet);
+		}
+		return result;
 	}
 
 	@Override

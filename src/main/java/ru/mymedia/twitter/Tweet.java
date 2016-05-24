@@ -50,6 +50,11 @@ public class Tweet
 		return favoriteCount + 15 * retweetCount;
 	}
 
+	public String getLang()
+	{
+		return lang;
+	}
+
 	public int compareByTimestamp(Tweet another)
 	{
 		return timestamp.compareTo(another.timestamp);
