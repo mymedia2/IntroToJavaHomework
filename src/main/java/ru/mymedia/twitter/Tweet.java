@@ -40,6 +40,11 @@ public class Tweet
 		                     lang);
 	}
 
+	public String getContent()
+	{
+		return content;
+	}
+
 	public Date getTimestamp()
 	{
 		return timestamp;

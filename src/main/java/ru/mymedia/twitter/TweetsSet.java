@@ -66,6 +66,32 @@ public class TweetsSet
 	@Override
     public Map<String, Double> getTagCloud(String lang)
 	{
-		throw new UnsupportedOperationException();
+		Map<String, Integer> tags = new HashMap<String, Integer>();
+		for (Tweet tweet : groupByLang().get(lang)) {
+			for (String word : tweet.getContent().toLowerCase().split("\\W")) {
+				if (word.length() > 3) {
+					Integer counter = tags.get(word);
+					if (counter == null) {
+						tags.put(word, 1);
+					} else {
+						counter++;
+					}
+				}
+			}
+		}
+		return normalize(tags);
+	}
+
+	private Map<String, Double> normalize(Map<String, Integer> raw)
+	{
+		int sum = 0;
+		for (Integer count : raw.values()) {
+			sum += count;
+		}
+		Map<String, Double> result = new HashMap<String, Double>();
+		for (Map.Entry<String, Integer> el : raw.entrySet()) {
+			result.put(el.getKey(), el.getValue() / (double)sum);
+		}
+		return result;
 	}
 }
