@@ -35,7 +35,9 @@ public class Tweet
 	@Override
 	public String toString()
 	{
-		return content;
+		return String.format("Tweet(\"%s\", Date(\"%s\"), %d, %d, \"%s\")",
+		                     content, timestamp, favoriteCount, retweetCount,
+		                     lang);
 	}
 
 	public Date getTimestamp()
@@ -46,6 +48,21 @@ public class Tweet
 	public int getScore()
 	{
 		return favoriteCount + 15 * retweetCount;
+	}
+
+	public int compareByTimestamp(Tweet another)
+	{
+		return timestamp.compareTo(another.timestamp);
+	}
+
+	public int compareByFavoriteCount(Tweet another)
+	{
+		return Integer.compare(favoriteCount, another.favoriteCount);
+	}
+
+	public int compareByRetweetCount(Tweet another)
+	{
+		return Integer.compare(retweetCount, another.retweetCount);
 	}
 
 	private String content;
