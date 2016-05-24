@@ -17,14 +17,6 @@ public class Accessor
 	{
 		TweetsContainer<Tweet> result = new TweetsSet();
 		try {
-			// почему-то файл twitter4j.properties и переменные окружения не работают
-			ConfigurationBuilder cb = new ConfigurationBuilder();
-			cb.setDebugEnabled(true)
-				.setOAuthConsumerKey("3nVuSoBZnx6U4vzUxf5w")	// Twitter for Android
-				.setOAuthConsumerSecret("Bcs59EFbbsdF6Sl9Ng71smgStWEGwXXKSjYvPVt7qys")
-				.setOAuthAccessToken("704702959792353282-Bk7Z3Q0hpYGYKUNgcg4KNdjVTfWTvTq")
-				.setOAuthAccessTokenSecret("dYL88iwgg4QuV0diZWTUma1SiHVPBdqzsUOKwZqAyeovg");
-			Twitter twitter = new TwitterFactory(cb.build()).getInstance();
 			Query request = new Query(query);
 			QueryResult response;
 			do { // TODO: избавиться от do … while
@@ -39,5 +31,18 @@ public class Accessor
 			te.printStackTrace();
 		}
 		return result;
+	}
+
+	public static Twitter twitter;
+
+	static {
+		// почему-то файл twitter4j.properties и переменные окружения не работают
+		ConfigurationBuilder cb = new ConfigurationBuilder();
+		cb.setDebugEnabled(true)
+			.setOAuthConsumerKey("3nVuSoBZnx6U4vzUxf5w")	// Twitter for Android
+			.setOAuthConsumerSecret("Bcs59EFbbsdF6Sl9Ng71smgStWEGwXXKSjYvPVt7qys")
+			.setOAuthAccessToken("704702959792353282-Bk7Z3Q0hpYGYKUNgcg4KNdjVTfWTvTq")
+			.setOAuthAccessTokenSecret("dYL88iwgg4QuV0diZWTUma1SiHVPBdqzsUOKwZqAyeovg");
+		twitter = new TwitterFactory(cb.build()).getInstance();
 	}
 }
