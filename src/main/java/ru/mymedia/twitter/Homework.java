@@ -12,10 +12,11 @@ class Homework
 {
 	public static void main(String[] argv)
 	{
+		int limit = argv.length > 0 ? Integer.parseInt(argv[0], 10) : 5000;
 		Calendar fromDate = new GregorianCalendar();
 		fromDate.add(Calendar.MONTH, -1);
-		printData(Accessor.search("RealMadrid", fromDate.getTime(), 10).groupByLang(),
-		          Accessor.search("AtleticoMadrid", fromDate.getTime(), 10).groupByLang());
+		printData(Accessor.search("RealMadrid", fromDate.getTime(), limit).groupByLang(),
+		          Accessor.search("AtleticoMadrid", fromDate.getTime(), limit).groupByLang());
 	}
 
 	private static void printData(Map<String, Collection<Tweet>> real,

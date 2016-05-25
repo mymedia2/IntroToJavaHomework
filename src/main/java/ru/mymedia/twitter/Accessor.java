@@ -17,25 +17,28 @@ public class Accessor
 	 */
 	public static TweetsContainer<Tweet> search(String query, Date since, int querySize)
 	{
-		assert querySize > 0;
 		TweetsContainer<Tweet> result = new TweetsSet();
-		try {
-			Query request = new Query(query + " since:" + new SimpleDateFormat("yyyy-MM-dd").format(since));
-			QueryResult response;
-			int counter = 0;
-			outerLoop: do {
-				response = twitter.search(request);
-				for (Status tweet : response.getTweets()) {
-					result.add(new Tweet(tweet.getText(), tweet.getCreatedAt(),
-										 tweet.getFavoriteCount(), tweet.getRetweetCount(),
-										 tweet.getLang()));
-					if (++counter >= querySize) {
-						break outerLoop;
+		if (querySize < 0) {
+			throw new IllegalArgumentException("querySize должен быть неотрицательным");
+		} else if (querySize != 0) {
+			try {
+				Query request = new Query(query + " since:" + new SimpleDateFormat("yyyy-MM-dd").format(since));
+				QueryResult response;
+				int counter = 0;
+				outerLoop: do {
+					response = twitter.search(request);
+					for (Status tweet : response.getTweets()) {
+						result.add(new Tweet(tweet.getText(), tweet.getCreatedAt(),
+											 tweet.getFavoriteCount(), tweet.getRetweetCount(),
+											 tweet.getLang()));
+						if (++counter >= querySize) {
+							break outerLoop;
+						}
 					}
-				}
-			} while ((request = response.nextQuery()) != null);
-		} catch (TwitterException te) {
-			te.printStackTrace();
+				} while ((request = response.nextQuery()) != null);
+			} catch (TwitterException te) {
+				te.printStackTrace();
+			}
 		}
 		return result;
 	}
