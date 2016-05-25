@@ -1,6 +1,11 @@
 package ru.mymedia.twitter;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Comparator;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Collection;
+import java.util.HashMap;
 
 import ru.mymedia.twitter.Tweet;
 import ru.mymedia.twitter.TweetsContainer;
@@ -67,14 +72,17 @@ public class TweetsSet
     public Map<String, Double> getTagCloud(String lang)
 	{
 		Map<String, Integer> tags = new HashMap<String, Integer>();
-		for (Tweet tweet : groupByLang().get(lang)) {
-			for (String word : tweet.getContent().toLowerCase().split("\\W")) {
-				if (word.length() > 3) {
-					Integer counter = tags.get(word);
-					if (counter == null) {
-						tags.put(word, 1);
-					} else {
-						counter++;
+		Collection<Tweet> byLang = groupByLang().get(lang);
+		if (byLang != null) {
+			for (Tweet tweet : byLang) {
+				for (String word : tweet.getContent().toLowerCase().split("\\W")) {
+					if (word.length() > 3) {
+						Integer counter = tags.get(word);
+						if (counter == null) {
+							tags.put(word, 1);
+						} else {
+							counter++;
+						}
 					}
 				}
 			}

@@ -1,11 +1,12 @@
 package ru.mymedia.twitter;
 
-import java.util.*;
+import java.util.Date;
 import java.text.SimpleDateFormat;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
-import ru.mymedia.twitter.*;
+import ru.mymedia.twitter.TweetsSet;
+import ru.mymedia.twitter.TweetsContainer;
 
 public class Accessor
 {
@@ -14,7 +15,7 @@ public class Accessor
 	 * @param since - дата, с которой начинается поиск (достаточно указать день, месяц и год)
 	 * @param querySize - количество твитов в результирующей выборке
 	 */
-	public static Collection<Tweet> search(String query, Date since, int querySize)
+	public static TweetsContainer<Tweet> search(String query, Date since, int querySize)
 	{
 		assert querySize > 0;
 		TweetsContainer<Tweet> result = new TweetsSet();
@@ -39,7 +40,7 @@ public class Accessor
 		return result;
 	}
 
-	public static Twitter twitter;
+	private static Twitter twitter;
 
 	static {
 		// почему-то файл twitter4j.properties и переменные окружения не работают
